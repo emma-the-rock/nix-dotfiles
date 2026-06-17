@@ -1,0 +1,3 @@
+- Evaluate Plasma Manager when Plasma 6.7 support improves
+- Review system-wide package list periodically
+- Add additional hosts
