@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ lib, ... }:
 
 {
   # Lanzaboote reemplaza al systemd-boot estándar
