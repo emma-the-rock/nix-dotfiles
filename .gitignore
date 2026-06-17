@@ -1,0 +1,11 @@
+# Nix build artifacts
+result
+result-*
+
+# Archivos temporales de editores
+*.swp
+*~
+.DS_Store
+
+# Logs de compilación o basura de Git
+.direnv/

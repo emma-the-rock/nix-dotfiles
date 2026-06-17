@@ -1,0 +1,1 @@
+Before suggesting NixOS/Home Manager options or package names, verify them with MCP-NixOS or official search.nixos.org. Do not invent option paths.
