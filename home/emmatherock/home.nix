@@ -1,5 +1,6 @@
 {
   imports = [
+    ./audio.nix
     ./desktop-apps.nix
     ./gaming.nix
     ./git.nix
