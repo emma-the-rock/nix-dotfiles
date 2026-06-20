@@ -9,7 +9,6 @@
     chatterino7
     telegram-desktop
     localsend
-    deskflow
     kdePackages.kalk
     kdePackages.partitionmanager
   ];

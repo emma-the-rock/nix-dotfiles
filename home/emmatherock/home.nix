@@ -2,6 +2,7 @@
   imports = [
     ./audio.nix
     ./desktop-apps.nix
+    ./deskflow.nix
     ./gaming.nix
     ./git.nix
     ./media.nix
