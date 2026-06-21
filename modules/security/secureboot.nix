@@ -1,11 +1,13 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 
 {
-  # Lanzaboote reemplaza al systemd-boot estándar
-  boot.loader.systemd-boot.enable = lib.mkForce false;
+  environment.systemPackages = with pkgs; [
+    sbctl
+  ];
 
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
+  boot.loader.limine = {
+    secureBoot = {
+      enable = true;
+    };
   };
 }

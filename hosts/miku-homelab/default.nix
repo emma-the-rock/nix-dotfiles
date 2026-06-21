@@ -21,8 +21,12 @@
 
   boot = {
     loader = {
-      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      systemd-boot.enable = false;
+      limine = {
+        enable = true;
+        maxGenerations = 5;
+      };
     };
     plymouth.enable = true;
     initrd.kernelModules = [ "amdgpu" ];
