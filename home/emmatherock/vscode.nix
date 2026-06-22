@@ -1,18 +1,26 @@
 { pkgs, ... }:
+
+let
+  marketplace = pkgs.nix-vscode-extensions.vscode-marketplace;
+in
 {
-  home.packages = with pkgs; [
-    (vscode-with-extensions.override {
-    vscodeExtensions = with vscode-extensions; [
-      jnoortheen.nix-ide
-      ms-python.python
-      vscode-extensions.ms-dotnettools.csharp
-      vscode-extensions.ms-vscode.cpptools
-      vscode-extensions.golang.go
-      vscode-extensions.rust-lang.rust-analyzer
-      vscode-extensions.Google.gemini-cli-vscode-ide-companion
-      vscode-extensions.ms-azuretools.vscode-containers
-      ms-vscode-remote.remote-ssh
-      vscode-extensions.coolbear.systemd-unit-file
+  home.packages = [
+    (pkgs.vscode-with-extensions.override {
+      vscodeExtensions = [
+        marketplace.openai.chatgpt
+
+        marketplace.ms-python.python
+        marketplace.ms-python.vscode-pylance
+        marketplace.ms-python.debugpy
+
+        marketplace.jnoortheen.nix-ide
+        marketplace.redhat.vscode-yaml
+        marketplace.ms-dotnettools.csharp
+        marketplace.ms-vscode.cpptools
+        marketplace.golang.go
+        marketplace.rust-lang.rust-analyzer
+        marketplace.ms-azuretools.vscode-containers
+        marketplace.ms-vscode-remote.remote-ssh
       ];
     })
   ];

@@ -14,9 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vscode-server.url = "github:nix-community/nixos-vscode-server";
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
-  outputs = { self, nixpkgs, chaotic, apple-fonts, home-manager, sidra, vscode-server, ... }@inputs: {
+  outputs = { self, nixpkgs, chaotic, apple-fonts, home-manager, sidra, vscode-server, nix-vscode-extensions, ... }@inputs: {
     nixosConfigurations = {
       miku-homelab = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -28,6 +30,9 @@
           vscode-server.nixosModules.default
           chaotic.nixosModules.default
           {
+            nixpkgs.overlays = [
+              inputs.nix-vscode-extensions.overlays.default
+            ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
@@ -36,5 +41,17 @@
         ];
       };
     };
+  };
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.nixos.org"
+      "https://cache.numtide.com"
+      "https://nix-community.cachix.org"
+    ];
+
+    extra-trusted-public-keys = [
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 }

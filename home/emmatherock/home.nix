@@ -1,5 +1,6 @@
 {
   imports = [
+    ./agents.nix
     ./audio.nix
     ./desktop-apps.nix
     ./deskflow.nix
