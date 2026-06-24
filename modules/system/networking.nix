@@ -9,10 +9,10 @@
     };
     useDHCP = false;
     interfaces.enp6s0.ipv4.addresses = [{
-      address = "192.168.1.21";
+      address = "10.1.1.21";
       prefixLength = 24;
     }];
-    defaultGateway = "192.168.1.1";
+    defaultGateway = "10.1.1.1";
     
     # DNS rápidos para que la resolución de nombres sea instantánea
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
