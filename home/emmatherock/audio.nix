@@ -1,12 +1,25 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+
+let
+  pipewireDir = ./pipewire;
+
+  pipewireFiles =
+    lib.filterAttrs
+      (name: type: type == "regular" && lib.hasSuffix ".conf" name)
+      (builtins.readDir pipewireDir);
+
+  pipewireConfigFiles =
+    lib.mapAttrs'
+      (name: _:
+        lib.nameValuePair
+          "pipewire/pipewire.conf.d/${name}"
+          { source = pipewireDir + "/${name}"; }
+      )
+      pipewireFiles;
+in
 {
-  xdg.configFile = {
-    "pipewire/pipewire.conf.d/10-discord.conf".source = ./pipewire/10-discord.conf;
-    "pipewire/pipewire.conf.d/10-mic.conf".source = ./pipewire/10-mic.conf;
-    "pipewire/pipewire.conf.d/10-misc.conf".source = ./pipewire/10-misc.conf;
-    "pipewire/pipewire.conf.d/10-music.conf".source = ./pipewire/10-music.conf;
-    "pipewire/pipewire.conf.d/10-vban-send.conf".source = ./pipewire/10-vban-send.conf;
-  };
+  xdg.configFile = pipewireConfigFiles;
+
   systemd.user.services.carla = {
     Unit = {
       Description = "Carla Audio Host";
