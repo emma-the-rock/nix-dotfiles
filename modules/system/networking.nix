@@ -4,8 +4,8 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedUDPPorts = [ config.services.tailscale.port 4242 49983 24800 26900 ];
-      allowedTCPPorts = [ 22 4242 49983 24800 26900 ];
+      allowedUDPPorts = [ config.services.tailscale.port 4242 49983 24800 26900 60977];
+      allowedTCPPorts = [ 22 4242 49983 24800 26900 60977];
     };
     useDHCP = false;
     interfaces.enp6s0.ipv4.addresses = [{
