@@ -30,7 +30,7 @@
     };
     plymouth.enable = true;
     initrd.kernelModules = [ "amdgpu" ];
-    kernelPackages = pkgs.linuxPackages_cachyos ;
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ "quiet" "splash" "boot.shell_on_fail" "loglevel=3" "iommu=pt" ];
   };
 
