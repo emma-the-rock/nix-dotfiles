@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/security/secureboot.nix
     ../../modules/services/maintenance.nix
+    ../../modules/services/flatpak.nix
     ../../modules/system/audio.nix
     ../../modules/system/fonts.nix
     ../../modules/system/gaming.nix

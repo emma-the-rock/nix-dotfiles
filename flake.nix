@@ -12,6 +12,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+    };
     vscode-server.url = "github:nix-community/nixos-vscode-server";
     llm-agents.url = "github:numtide/llm-agents.nix";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
@@ -26,6 +29,7 @@
         modules = [
           ./hosts/miku-homelab
           home-manager.nixosModules.home-manager
+          inputs.nix-flatpak.nixosModules.nix-flatpak
           vscode-server.nixosModules.default
           {
             nixpkgs.overlays = [
