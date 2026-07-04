@@ -7,7 +7,6 @@
     ./gaming.nix
     ./git.nix
     ./media.nix
-    ./obs.nix
     ./packages.nix
     ./shell.nix
     ./vscode.nix
