@@ -12,7 +12,7 @@ in
         marketplace.ms-python.python
         marketplace.ms-python.vscode-pylance
         marketplace.ms-python.debugpy
-
+        marketplace.anthropic.claude-code
         marketplace.jnoortheen.nix-ide
         marketplace.redhat.vscode-yaml
         marketplace.ms-dotnettools.csharp
