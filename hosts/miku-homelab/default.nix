@@ -10,6 +10,7 @@
     ../../modules/system/fonts.nix
     ../../modules/system/gaming.nix
     ../../modules/system/graphics.nix
+    ../../modules/system/nix-ld.nix
     ../../modules/system/packages.nix
     ../../modules/system/shells.nix
     ../../modules/system/users.nix
