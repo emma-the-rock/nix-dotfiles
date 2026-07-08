@@ -15,6 +15,7 @@
       "com.obsproject.Studio.Plugin.VerticalCanvas"
       "com.obsproject.Studio.Plugin.AitumMultistream"
       "com.obsproject.Studio.Plugin.CompositeBlur"
+      "com.obsproject.Studio.Plugin.OBSPWVideo"
       "org.freedesktop.Platform.VulkanLayer.OBSVkCapture//25.08"
       "com.valvesoftware.Steam"
     ];
