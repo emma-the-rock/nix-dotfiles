@@ -18,6 +18,7 @@
       "com.obsproject.Studio.Plugin.OBSPWVideo"
       "org.freedesktop.Platform.VulkanLayer.OBSVkCapture//25.08"
       "com.valvesoftware.Steam"
+      "me.amankhanna.opendeck"
     ];
   };
 }
