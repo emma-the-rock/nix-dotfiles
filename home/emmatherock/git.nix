@@ -3,7 +3,7 @@
     enable = true;
     settings.user = {
       name = "emmatherock";
-      email = "emanuelxoda@gmail.com";
+      email = "emma@mikufanclub.lat";
     };
   };
 }
