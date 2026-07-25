@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   home.packages = with pkgs; [
     spotify
@@ -7,5 +7,6 @@
     vlc
     carla
     qpwgraph
+    inputs.sidra.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

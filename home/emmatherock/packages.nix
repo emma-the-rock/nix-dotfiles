@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     # --- Base y Terminal ---
@@ -6,7 +6,5 @@
     fastfetch
     (btop.override { cudaSupport = false; rocmSupport = true; })
     nvtopPackages.full
-    gemini-cli
-    inputs.sidra.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }
