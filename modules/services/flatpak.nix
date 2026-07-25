@@ -8,7 +8,7 @@
     # Flatpak >=1.18.0 leaks the NixOS host environment into the sandbox and breaks
     # glycin-svg icon loading (e.g. OpenDeck). Remove once
     # https://github.com/flatpak/flatpak/issues/6721 lands in nixpkgs.
-    package = inputs.nixpkgs-flatpak.legacyPackages.${pkgs.system}.flatpak;
+    package = inputs.nixpkgs-flatpak.legacyPackages.${pkgs.stdenv.hostPlatform.system}.flatpak;
 
     remotes = [
       {
