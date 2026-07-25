@@ -11,5 +11,6 @@
     localsend
     kdePackages.kalk
     kdePackages.partitionmanager
+    ktailctl
   ];
 }
