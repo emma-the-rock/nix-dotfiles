@@ -4,8 +4,8 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedUDPPorts = [ config.services.tailscale.port 4242 49983 24800 26900 60977];
-      allowedTCPPorts = [ 22 4242 49983 24800 26900 60977];
+      allowedUDPPorts = [ config.services.tailscale.port 80 443 4242 49983 24800 26900 60977];
+      allowedTCPPorts = [ 22 80 443 4242 49983 24800 26900 60977];
     };
     useDHCP = false;
     interfaces.enp6s0.ipv4.addresses = [{
@@ -13,9 +13,23 @@
       prefixLength = 24;
     }];
     defaultGateway = "10.1.1.1";
-    
-    # DNS rápidos para que la resolución de nombres sea instantánea
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
+
+    wireguard.interfaces = {
+      wg-miku-homelab = {
+        ips = [ "10.20.0.2/24" ];
+        privateKeyFile = "/etc/wireguard/miku-homelab_private.key";
+
+        peers = [
+          {
+            publicKey = "zERcSEQhan+xtmPOIjuVSkQaBynTjH96SgZZF9CZNV8=";
+            allowedIPs = [ "10.20.0.1/32" ];
+            endpoint = "vps.external.mikufanclub.lat:51822";
+            persistentKeepalive = 25;
+          }
+        ];
+      };
+    };
   };
 
   services.tailscale.enable = true;
