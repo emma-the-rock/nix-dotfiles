@@ -12,6 +12,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak/?ref=latest";
     };
@@ -20,7 +25,7 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
-  outputs = { self, nixpkgs, apple-fonts, home-manager, sidra, vscode-server, nix-vscode-extensions, ... }@inputs: {
+  outputs = { self, nixpkgs, apple-fonts, home-manager, plasma-manager, sidra, vscode-server, nix-vscode-extensions, ... }@inputs: {
     nixosConfigurations = {
       miku-homelab = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -34,10 +39,16 @@
           {
             nixpkgs.overlays = [
               inputs.nix-vscode-extensions.overlays.default
+              (final: prev: {
+                breeze-enhanced = final.kdePackages.callPackage ./pkgs/breeze-enhanced.nix { };
+              })
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [
+              plasma-manager.homeModules.plasma-manager
+            ];
             home-manager.users.emmatherock = import ./home/emmatherock/home.nix;
           }
         ];

@@ -1,4 +1,4 @@
-{ ... }: 
+{pkgs, ... }: 
 {
   services.desktopManager.plasma6.enable = true;
   services.displayManager = {
@@ -6,5 +6,4 @@
     autoLogin = { enable = true; user = "emmatherock"; };
   };
   security.pam.services.login.enableKwallet = true;
-
 }

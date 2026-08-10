@@ -8,6 +8,7 @@
     ./git.nix
     ./media.nix
     ./packages.nix
+    ./plasma.nix
     ./shell.nix
     ./vscode.nix
   ];
