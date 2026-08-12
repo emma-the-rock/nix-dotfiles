@@ -46,6 +46,7 @@
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA8vfwM5g9RJXqHtqTgNqsYg9SxSm+UMvFqTjBoAsLJ6 emmatherock@MAIN-PC"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIpTslcK0yQ6k+h8foNl17wVRyJUfEGzq7f1h3014WNB s21 plus"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEUCpjAuJobymPPAoPjLdL1eD6g4v6wrquu3cyHP22Wj emmatherock@NixOS"
       ];
     };
   };
