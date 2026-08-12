@@ -38,7 +38,7 @@
       privateKeyFile = config.age.secrets.miku-homelab-wg.path;
       peers = [
         {
-          publicKey = "zERcSEQhan+xtmPOIjuVSkQaBynTjH96SgZZF9CZNV8=";
+          publicKey = "BKs9VlsIEM1np6wHeVFL4NfbS1l69xnwins6Q12ByAM=";
           allowedIPs = [ "10.20.0.1/32" ];
           endpoint = "vps.external.mikufanclub.lat:51822";
           persistentKeepalive = 25;
