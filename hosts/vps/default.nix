@@ -56,17 +56,14 @@
     };
   };
 
-  # PLACEHOLDER: adjust once the real VPS image/provider is known (BIOS vs
-  # UEFI, actual boot device). Assumes a generic BIOS-booted image for now.
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/sda";
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  time.timeZone = "UTC";
+  time.timeZone = "America/Argentina/Buenos_Aires";
   i18n.defaultLocale = "en_US.UTF-8";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }
