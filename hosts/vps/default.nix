@@ -7,9 +7,6 @@
     ../../modules/system/packages.nix
   ];
 
-  # PLACEHOLDER: secrets/vps-wg.age does not exist yet. It has to be created
-  # (same way as secrets/miku-homelab-wg.age) once this host is installed and
-  # its own WireGuard private key has been generated.
   age.secrets.vps-wg.file = ../../secrets/vps-wg.age;
 
   myNetworking = {
