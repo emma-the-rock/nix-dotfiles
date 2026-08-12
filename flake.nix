@@ -23,9 +23,13 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
     llm-agents.url = "github:numtide/llm-agents.nix";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, apple-fonts, home-manager, plasma-manager, sidra, vscode-server, nix-vscode-extensions, ... }@inputs: {
+  outputs = { self, nixpkgs, apple-fonts, home-manager, plasma-manager, sidra, vscode-server, nix-vscode-extensions, agenix, ... }@inputs: {
     nixosConfigurations = {
       miku-homelab = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -36,6 +40,7 @@
           home-manager.nixosModules.home-manager
           inputs.nix-flatpak.nixosModules.nix-flatpak
           vscode-server.nixosModules.default
+          agenix.nixosModules.default
           {
             nixpkgs.overlays = [
               inputs.nix-vscode-extensions.overlays.default
@@ -51,6 +56,17 @@
             ];
             home-manager.users.emmatherock = import ./home/emmatherock/home.nix;
           }
+        ];
+      };
+
+      vps = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/vps
+          vscode-server.nixosModules.default
+          agenix.nixosModules.default
         ];
       };
     };
