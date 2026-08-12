@@ -1,9 +1,22 @@
 { config, pkgs, ... }:
 {
-  home.packages = [ pkgs.bibata-cursors pkgs.breeze-enhanced ];
+  home.packages = [ pkgs.layan-cursors pkgs.breeze-enhanced ];
+
+    home.pointerCursor = {
+    enable = true;
+    name = "layan-cursors";
+    package = pkgs.layan-cursors;
+    size = 24;
+    gtk.enable = true;
+  };
   
   programs.plasma = {
     enable = true;
+
+    workspace.cursor = {
+      theme = "layan-cursors";
+      size = 24;
+    };
 
     shortcuts = {
 
