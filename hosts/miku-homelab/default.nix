@@ -12,6 +12,13 @@
 
   age.secrets.miku-homelab-wg.file = ../../secrets/miku-homelab-wg.age;
 
+  myPackages.extra = with pkgs; [
+    rocmPackages.rocm-smi
+    btrfs-progs
+    distrobox
+    steam-run
+  ];
+
   myNetworking = {
     hostName = "miku-homelab";
     useNetworkManager = true;

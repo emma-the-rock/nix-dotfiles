@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/profiles/server.nix
+    ../../modules/system/packages.nix
   ];
 
   # PLACEHOLDER: secrets/vps-wg.age does not exist yet. It has to be created
