@@ -14,7 +14,7 @@
     hostName = "vps";
     useNetworkManager = false;
     staticIp = {
-      interface = "eth0";
+      interface = "ens3";
       address = "23.175.41.196";
       prefixLength = 27;
       gateway = "23.175.41.225";
