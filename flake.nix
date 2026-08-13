@@ -54,7 +54,9 @@
             home-manager.sharedModules = [
               plasma-manager.homeModules.plasma-manager
             ];
-            home-manager.users.emmatherock = import ./home/emmatherock/home.nix;
+            home-manager.users.emmatherock = { osConfig, ... }: {
+              imports = [ ./home/emmatherock/core.nix ] ++ osConfig.myHomeProfile.extraPrograms;
+            };
           }
         ];
       };
@@ -65,8 +67,17 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/vps
+          home-manager.nixosModules.home-manager
           vscode-server.nixosModules.default
           agenix.nixosModules.default
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.emmatherock = { osConfig, ... }: {
+              imports = [ ./home/emmatherock/core.nix ] ++ osConfig.myHomeProfile.extraPrograms;
+            };
+          }
         ];
       };
     };

@@ -1,9 +1,10 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/profiles/server.nix
+    ../../modules/system/home-profile.nix
     ../../modules/system/packages.nix
   ];
 
@@ -39,6 +40,7 @@
   myUsers = {
     admins.emmatherock = {
       description = "EmmaTheRock";
+      shell = pkgs.fish;
       extraGroups = [ "wheel" ];
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA8vfwM5g9RJXqHtqTgNqsYg9SxSm+UMvFqTjBoAsLJ6 emmatherock@MAIN-PC"

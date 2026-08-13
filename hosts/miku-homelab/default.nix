@@ -6,6 +6,7 @@
     ../../modules/profiles/desktop.nix
     ../../modules/profiles/server.nix
     ../../modules/services/samba.nix
+    ../../modules/system/home-profile.nix
     ../../modules/system/nix-ld.nix
     ../../modules/system/packages.nix
   ];
@@ -17,6 +18,18 @@
     btrfs-progs
     distrobox
     steam-run
+  ];
+
+  myHomeProfile.extraPrograms = [
+    ../../home/emmatherock/agents.nix
+    ../../home/emmatherock/audio.nix
+    ../../home/emmatherock/desktop-apps.nix
+    ../../home/emmatherock/deskflow.nix
+    ../../home/emmatherock/gaming.nix
+    ../../home/emmatherock/media.nix
+    ../../home/emmatherock/packages.nix
+    ../../home/emmatherock/plasma.nix
+    ../../home/emmatherock/vscode.nix
   ];
 
   myNetworking = {
