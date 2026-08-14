@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/profiles/server.nix
     ../../modules/system/home-profile.nix
+    ../../modules/system/nix-ld.nix
     ../../modules/system/packages.nix
   ];
 
@@ -19,7 +20,9 @@
       prefixLength = 27;
       gateway = "23.175.41.225";
       nameservers = [ "1.1.1.1" "1.0.0.1" ];
+      onlinkGateway = true;
     };
+
     extraTcpPorts = [ 80 443 ];
     extraUdpPorts = [ 51822 ];
     sshAllowUsers = [ "emmatherock" ];

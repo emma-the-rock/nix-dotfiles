@@ -63,6 +63,11 @@ in
             default = [ "1.1.1.1" "8.8.8.8" ];
             description = "DNS nameservers to use.";
           };
+          onlinkGateway = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+            description = "Whether the gateway lies outside the interface's subnet, requiring the onlink flag on the default route.";
+          };
         };
       });
       default = null;
@@ -133,8 +138,18 @@ in
           address = cfg.staticIp.address;
           prefixLength = cfg.staticIp.prefixLength;
         }];
-        defaultGateway = cfg.staticIp.gateway;
         nameservers = cfg.staticIp.nameservers;
+      })
+      (lib.mkIf (cfg.staticIp != null && !cfg.staticIp.onlinkGateway) {
+        defaultGateway = cfg.staticIp.gateway;
+      })
+      (lib.mkIf (cfg.staticIp != null && cfg.staticIp.onlinkGateway) {
+        interfaces.${cfg.staticIp.interface}.ipv4.routes = [{
+          address = "0.0.0.0";
+          prefixLength = 0;
+          via = cfg.staticIp.gateway;
+          options.onlink = "true";
+        }];
       })
       (lib.mkIf cfg.wireguard.enable {
         wireguard.interfaces."wg-${cfg.hostName}" = {
