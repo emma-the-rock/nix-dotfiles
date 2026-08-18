@@ -39,6 +39,12 @@ in
       description = "Whether to enable NetworkManager to manage network interfaces.";
     };
 
+    useNetworkd = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to configure the static IP via systemd-networkd instead of the classic scripted networking backend. Needed for reliable onlink default routes.";
+    };
+
     staticIp = lib.mkOption {
       type = lib.types.nullOr (lib.types.submodule {
         options = {
@@ -121,62 +127,81 @@ in
     };
   };
 
-  config = {
-    networking = lib.mkMerge [
-      {
-        hostName = cfg.hostName;
-        networkmanager.enable = cfg.useNetworkManager;
-        firewall = {
-          enable = true;
-          allowedUDPPorts = [ config.services.tailscale.port ] ++ cfg.extraUdpPorts;
-          allowedTCPPorts = [ 22 ] ++ cfg.extraTcpPorts;
-        };
-      }
-      (lib.mkIf (cfg.staticIp != null) {
-        useDHCP = false;
-        interfaces.${cfg.staticIp.interface}.ipv4.addresses = [{
-          address = cfg.staticIp.address;
-          prefixLength = cfg.staticIp.prefixLength;
-        }];
-        nameservers = cfg.staticIp.nameservers;
-      })
-      (lib.mkIf (cfg.staticIp != null && !cfg.staticIp.onlinkGateway) {
-        defaultGateway = cfg.staticIp.gateway;
-      })
-      (lib.mkIf (cfg.staticIp != null && cfg.staticIp.onlinkGateway) {
-        interfaces.${cfg.staticIp.interface}.ipv4.routes = [{
-          address = "0.0.0.0";
-          prefixLength = 0;
-          via = cfg.staticIp.gateway;
-          options.onlink = "true";
-        }];
-      })
-      (lib.mkIf cfg.wireguard.enable {
-        wireguard.interfaces."wg-${cfg.hostName}" = {
-          ips = cfg.wireguard.ips;
-          privateKeyFile = cfg.wireguard.privateKeyFile;
-          listenPort = cfg.wireguard.listenPort;
-          peers = map (peer: {
-            inherit (peer) publicKey allowedIPs;
-          } // lib.optionalAttrs (peer.endpoint != null) {
-            inherit (peer) endpoint;
-          } // lib.optionalAttrs (peer.persistentKeepalive != null) {
-            inherit (peer) persistentKeepalive;
-          }) cfg.wireguard.peers;
-        };
-      })
-    ];
+  config = lib.mkMerge [
+    {
+      networking = lib.mkMerge [
+        {
+          hostName = cfg.hostName;
+          networkmanager.enable = cfg.useNetworkManager;
+          firewall = {
+            enable = true;
+            allowedUDPPorts = [ config.services.tailscale.port ] ++ cfg.extraUdpPorts;
+            allowedTCPPorts = [ 22 ] ++ cfg.extraTcpPorts;
+          };
+        }
+        (lib.mkIf (cfg.staticIp != null && !cfg.useNetworkd) {
+          useDHCP = false;
+          interfaces.${cfg.staticIp.interface}.ipv4.addresses = [{
+            address = cfg.staticIp.address;
+            prefixLength = cfg.staticIp.prefixLength;
+          }];
+          nameservers = cfg.staticIp.nameservers;
+        })
+        (lib.mkIf (cfg.staticIp != null && !cfg.useNetworkd && !cfg.staticIp.onlinkGateway) {
+          defaultGateway = cfg.staticIp.gateway;
+        })
+        (lib.mkIf cfg.wireguard.enable {
+          wireguard.interfaces."wg-${cfg.hostName}" = {
+            ips = cfg.wireguard.ips;
+            privateKeyFile = cfg.wireguard.privateKeyFile;
+            listenPort = cfg.wireguard.listenPort;
+            peers = map (peer: {
+              inherit (peer) publicKey allowedIPs;
+            } // lib.optionalAttrs (peer.endpoint != null) {
+              inherit (peer) endpoint;
+            } // lib.optionalAttrs (peer.persistentKeepalive != null) {
+              inherit (peer) persistentKeepalive;
+            }) cfg.wireguard.peers;
+          };
+        })
+      ];
 
-    services.tailscale.enable = true;
+      services.tailscale.enable = true;
 
-    services.openssh = {
-      enable = true;
-      settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = false;
-      } // lib.optionalAttrs (cfg.sshAllowUsers != [ ]) {
-        AllowUsers = cfg.sshAllowUsers;
+      services.openssh = {
+        enable = true;
+        settings = {
+          PermitRootLogin = "no";
+          PasswordAuthentication = false;
+        } // lib.optionalAttrs (cfg.sshAllowUsers != [ ]) {
+          AllowUsers = cfg.sshAllowUsers;
+        };
       };
-    };
-  };
+    }
+
+    (lib.mkIf (cfg.staticIp != null && cfg.useNetworkd) {
+      networking.useDHCP = false;
+      systemd.network.enable = true;
+      services.resolved.enable = true;
+
+      systemd.network.networks."10-${cfg.staticIp.interface}" = {
+        matchConfig.Name = cfg.staticIp.interface;
+        address = [ "${cfg.staticIp.address}/${toString cfg.staticIp.prefixLength}" ];
+        dns = cfg.staticIp.nameservers;
+        routes = [
+          ({
+            routeConfig = {
+              Gateway = cfg.staticIp.gateway;
+            } // lib.optionalAttrs cfg.staticIp.onlinkGateway {
+              GatewayOnLink = true;
+            };
+          })
+        ];
+        networkConfig = {
+          DHCP = "no";
+        };
+        linkConfig.RequiredForOnline = "routable";
+      };
+    })
+  ];
 }

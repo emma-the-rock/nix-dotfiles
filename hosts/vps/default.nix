@@ -14,6 +14,7 @@
   myNetworking = {
     hostName = "vps";
     useNetworkManager = false;
+    useNetworkd = true;
     staticIp = {
       interface = "ens3";
       address = "23.175.41.196";
